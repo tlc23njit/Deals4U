@@ -20,10 +20,8 @@ for i in websites:
         k=results[i].split()
         ub = True
         ib = True
+        d[i]["website"]="ebay"
         for j in range(len(k)):
-            if wb:
-                d[i]["website"]="ebay"
-                wb=False
             if k[j][0:5] == "href=" and ub:
                 ub = False
                 d[i]["url"]=k[j][6:-1]
@@ -44,13 +42,13 @@ for i in websites:
                 d[i]["price"]=(k[j+1])
             if k[j]=="off":
                 d[i]["discount"]=k[j-1]
-#for i in d:
-    #print(d[i])
+for i in d:
+    print(d[i])
 #print(results[0].split())
 #print(d[0])
 #print(len(d))
 #print(len(results))
-print(d[0])
+#print(d[0])
 #print(d[1])
-print(results[0].split())
+#print(results[0].split())
 #print(d[len(d)-1])
