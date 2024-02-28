@@ -54,11 +54,11 @@ def scrapeEbay():
     for x in range(len(d)):
         l.append(d[x])
     return l
-m = scrapeEbay()
-print(m[0])
+#m = scrapeEbay()
+#print(m[0])
 #print(m[1])
 #print(m[2])
 #print(m[3])
 #print(m[4])
-print(m)
+#print(m)
 #scrapeEbay()
