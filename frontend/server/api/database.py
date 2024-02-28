@@ -59,4 +59,10 @@ if len(sys.argv) != 8:
 product_id_to_remove = int(sys.argv[1])
 new_product_data = tuple(sys.argv[2:])
 
+<<<<<<< HEAD
 updateDB(product_id_to_remove, new_product_data)
+=======
+updateDB(product_id_to_remove, new_product_data)
+
+
+>>>>>>> a7a24d80758a4bae5f8482c8c056a3050de1c4ae
