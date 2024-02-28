@@ -6,10 +6,10 @@ import sys
 
 load_dotenv()
 
-host = os.environ.get("DB_HOST")
-user = os.environ.get("DB_USER")
-password = os.environ.get("DB_PASSWORD")
-database = os.environ.get("DB_DATABASE")
+host = "10.203.117.224"#os.environ.get("DB_HOST")
+user = "tyler"#os.environ.get("DB_USER")
+password = "tylerCS490"#os.environ.get("DB_PASSWORD")
+database = "Deals4U"#os.environ.get("DB_DATABASE")
 
 
 mydb = mysql.connector.connect(
