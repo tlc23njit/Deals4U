@@ -7,8 +7,8 @@ def scrapeKohls():
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
     headers = {'User-Agent': user_agent}
     k=[]
-    for i in websites:
-        page = r.get(i, headers=headers)
+    for a in websites:
+        page = r.get(a, headers=headers)
         soup = bs(page.content, "html.parser")
         results=soup.find_all("li", class_="products_grid coupon_eligible")
         for i in range(len(results)):

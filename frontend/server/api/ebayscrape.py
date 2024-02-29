@@ -9,8 +9,8 @@ def scrapeEbay():
     d={}
     nb=False
     wb=True
-    for i in websites:
-        page = r.get(i, headers=headers)
+    for a in websites:
+        page = r.get(a, headers=headers)
         soup = bs(page.content, "html.parser")
         results = soup.find_all("div", class_ = "dne-itemtile dne-itemtile-medium")
         results += soup.find_all("div", class_ = "dne-itemtile dne-itemtile-large")
@@ -50,15 +50,6 @@ def scrapeEbay():
                     db=False
 
     l=[]
-    #print(results[1].split())
     for x in range(len(d)):
         l.append(d[x])
     return l
-#m = scrapeEbay()
-#print(m[0])
-#print(m[1])
-#print(m[2])
-#print(m[3])
-#print(m[4])
-#print(m)
-#scrapeEbay()

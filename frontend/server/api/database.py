@@ -6,7 +6,7 @@ import sys
 
 load_dotenv()
 
-host = "10.203.117.224"#os.environ.get("DB_HOST")
+host = "10.203.113.233"#os.environ.get("DB_HOST")
 user = "tyler"#os.environ.get("DB_USER")
 password = "tylerCS490"#os.environ.get("DB_PASSWORD")
 database = "Deals4U"#os.environ.get("DB_DATABASE")
