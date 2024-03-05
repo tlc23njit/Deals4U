@@ -24,7 +24,7 @@ def scrapeKohls():
             db=True
             d[i]["website"]="Kohls"
             d[i]["href"]=''
-            d[i]["img_url"]=''
+            d[i]["image_url"]=''
             d[i]["title"]=''
             d[i]['regular_price']=''
             d[i]['sale_price']=''
@@ -41,7 +41,7 @@ def scrapeKohls():
                         nb = False
                         d[i]["title"] = n[7:-18]
                 if k[j][0:7]=="srcset=" and ib:
-                    d[i]["img_url"] = k[j][8:]
+                    d[i]["image_url"] = k[j][8:]
                     ib=False
                 if k[j] == 'red_color">' and pb:
                     pb=False
