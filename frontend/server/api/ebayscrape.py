@@ -23,6 +23,11 @@ def scrapeEbay():
             ib = True
             db = True
             d[i]["website"]="ebay"
+            d["href"]=None
+            d["image_url"]=None
+            d["title"]=None
+            d['regular_price']=None
+            d['sale_price']=None
             for j in range(len(k)):
                 if k[j][0:5] == "href=" and ub:
                     ub = False
