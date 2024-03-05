@@ -1,4 +1,4 @@
-import requests
+import requests 
 import os
 from dotenv import load_dotenv
 import mysql.connector
@@ -169,7 +169,103 @@ def scrapeAmazon():
                 amazonProducts.append(products)
 
     return amazonProducts
+def scrapeEbay():
+    websites = ['https://www.ebay.com/deals']
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+    headers = {'User-Agent': user_agent}
+    j = 0
+    d={}
+    nb=False
+    wb=True
+    for a in websites:
+        page = requests.get(a, headers=headers)
+        soup = BeautifulSoup(page.content, "html.parser")
+        results = soup.find_all("div", class_ = "dne-itemtile dne-itemtile-medium")
+        results += soup.find_all("div", class_ = "dne-itemtile dne-itemtile-large")
+        for i in range(len(results)):
+            results[i]=results[i].prettify()
+            d[i]={}
+            n=""
+            k=results[i].split()
+            ub = True
+            ib = True
+            db = True
+            d[i]["website"]="ebay"
+            d[i]["sale_price"] = None
+            for j in range(len(k)):
+                if k[j][0:5] == "href=" and ub:
+                    ub = False
+                    d[i]["href"]=k[j][6:-1]
+                if k[j][0:5] == "title":
+                    nb = True
+                if nb:
+                    n+=k[j]+" "
+                    if k[j][-2:]=='">' or k[j][-2:]=="'>":
+                        nb = False
+                        d[i]["title"]=n[7:-3]
+                if k[j][0:15]=="data-config-src" and ib:
+                    d[i]["image_url"]=k[j][17:-1]
+                    ib = False
+                if k[j][0:3]=="src" and ib:
+                    d[i]["image_url"]=(k[j][4:-3])
+                    ib = False
+                if k[j]=='itemprop="price">':
+                    d[i]["sale_price"]=(k[j+1])
+                if k[j]=='Previous' and db:
+                    d[i]["regular_price"]=k[j+2]
+                    db=False
+                if k[j]=='class=evo-strikethrough-price">' and db:
+                    d[i]["regular_price"]=k[j+1]
+                    db=False
 
+    l=[]
+    for x in range(len(d)):
+        l.append(d[x])
+    return l
+def scrapeDell():
+    websites = ['https://www.dell.com/en-us/shop/deals']
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+    headers = {'User-Agent': user_agent}
+    l = []
+    for a in websites:
+        page = requests.get(a, headers=headers)
+        soup = BeautifulSoup(page.content, "html.parser")
+        results = soup.find_all("article")
+        for i in range(len(results)):
+            d={}
+            results[i]=results[i].prettify()
+            k=results[i].split('"')
+            d["website"]="Dell"
+            d["href"]=None
+            d["image_url"]=None
+            d["title"]=None
+            d['regular_price']=None
+            d['sale_price']=None
+            d['category']='Technology'
+            tb = True
+            ib = True
+            pb = True
+            ub = True
+            ub1 = True
+            db = True
+            for j in range(len(k)):
+                if k[j] == "title" and tb:
+                    tb = False
+                    d['title'] = k[j+2]
+                if k[j] == 'image' and ib:
+                    ib = False
+                    d['image_url'] = k[j+2]
+                if k[j] == 'dellPrice' and pb:
+                    pb = False
+                    d['sale_price'] = k[j+2]
+                if k[j] == 'marketPrice' and db:
+                    db = False
+                    d["regular_price"] = k[j+2]
+                if k[j] == "}' href=" and ub:
+                    ub = False
+                    d['href'] = "https:"+k[j+1]
+            l.append(d)
+    return l
 
 load_dotenv()
 
@@ -218,7 +314,17 @@ def updateDB():
         amazonList = scrapeAmazon()
         for product in amazonList:
             count += 1
+            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], product['regular_price'], "Sorted"))
+
+        ebayList = scrapeEbay()
+        for product in ebayList:
+            count += 1
             cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], None, "Sorted"))
+
+        dellList = scrapeDell()
+        for product in dellList:
+            count += 1
+            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], product['regular_price'],product['category']))
 
         # Commit the changes
         mydb.commit()
