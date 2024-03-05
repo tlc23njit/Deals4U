@@ -23,11 +23,11 @@ def scrapeKohls():
             pb=True
             db=True
             d[i]["website"]="Kohls"
-            d[i]["href"]=''
-            d[i]["image_url"]=''
-            d[i]["title"]=''
-            d[i]['regular_price']=''
-            d[i]['sale_price']=''
+            d["href"]=None
+            d["image_url"]=None
+            d["title"]=None
+            d['regular_price']=None
+            d['sale_price']=None
             for j in range(len(k)):
                 if k[j][0:5] == "href=" and ub:
                     ub = False
