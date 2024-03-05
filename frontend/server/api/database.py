@@ -338,25 +338,4 @@ def updateDB():
         cursor.close()
         mydb.close()
 
-<<<<<<< HEAD
-# Assuming script is run like: python script.py 1 "New Product" "https://newproduct.com" "new_image.jpg" "19.99" "29.99" "Electronics"
-if len(sys.argv) != 8:
-    print("Usage: python script.py <Product_ID to remove> <Product_Name> <WebsiteUrl> <Image> <Discount_Price> <Full_Price> <Category>")
-    sys.exit(1)
-
-product_id_to_remove = int(sys.argv[1])
-new_product_data = tuple(sys.argv[2:])
-
-<<<<<<< HEAD
-updateDB(product_id_to_remove, new_product_data)
-=======
-updateDB(product_id_to_remove, new_product_data)
-=======
 updateDB()
-
-
-
->>>>>>> 69e2e6c6584d05fe751c6cbaa53549d4dfbd3809
-
-
->>>>>>> a7a24d80758a4bae5f8482c8c056a3050de1c4ae
