@@ -15,11 +15,11 @@ def scrapeDell():
             results[i]=results[i].prettify()
             k=results[i].split('"')
             d["website"]="Dell"
-            d["href"]=''
-            d["image_url"]=''
-            d["title"]=''
-            d['regular_price']=''
-            d['sale_price']=''
+            d["href"]=None
+            d["image_url"]=None
+            d["title"]=None
+            d['regular_price']=None
+            d['sale_price']=None
             d['category']='Technology'
             tb = True
             ib = True
