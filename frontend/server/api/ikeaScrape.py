@@ -25,3 +25,5 @@ def ikeaScrape():
         products['image_url'] = img_element
         ikeaProducts.append(products)
     return ikeaProducts
+
+print(ikeaScrape())

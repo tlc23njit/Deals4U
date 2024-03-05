@@ -3,16 +3,22 @@ import './banner.css';
 import BannerLogo from '../images/bannerLogo.png';
 
 const Banner = ({ message }) => {
-  const [expiresIn, setExpiresIn] = useState(24 * 60 * 60);
+  const [expiresIn, setExpiresIn] = useState(() => {
+    const storedExpiresIn = localStorage.getItem('expiresIn');
+    return storedExpiresIn ? parseInt(storedExpiresIn, 10) : 24 * 60 * 60;
+  });
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setExpiresIn((prevExpiresIn) => {
-        if (prevExpiresIn === 0) {
+        if (prevExpiresIn <= 0) {
           clearInterval(intervalId); 
+          localStorage.removeItem('expiresIn');
           return 0;
         }
-        return prevExpiresIn - 1;
+        const newExpiresIn = prevExpiresIn - 1;
+        localStorage.setItem('expiresIn', newExpiresIn);
+        return newExpiresIn;
       });
     }, 1000);
     return () => clearInterval(intervalId);
@@ -37,7 +43,7 @@ const Banner = ({ message }) => {
   return (
     <div className="banner">
       <img src= {BannerLogo} style={{width:'400px', float:'left', marginTop:'-60px'}}/>
-      <h2 style={{color:'white',  fontSize:'20px' , marginLeft:'900px'}}>EXPIRES IN : {formatTime(expiresIn)}</h2>
+      <h2 className="expires-text">EXPIRES IN : {formatTime(expiresIn)}</h2>
     </div>
   );
 };

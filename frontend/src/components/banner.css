@@ -6,3 +6,15 @@
     border-radius: 4px;
     margin-bottom: 40px;
   }
+
+  .expires-text {
+    color: white;
+    font-size: 20px;
+    margin-left: 900px;
+  }
+  
+  @media (max-width: 768px) {
+    .expires-text {
+      margin-left: 5%;
+    }
+  }
