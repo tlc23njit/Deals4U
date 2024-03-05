@@ -45,3 +45,7 @@ def scrapeDell():
                     d['href'] = "https:"+k[j+1]
             l.append(d)
     return l
+
+scraped_data = scrapeDell()
+for data in scraped_data:
+    print(data)
