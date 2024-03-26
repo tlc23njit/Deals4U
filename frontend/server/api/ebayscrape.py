@@ -14,6 +14,7 @@ def scrapeEbay():
         soup = bs(page.content, "html.parser")
         results = soup.find_all("div", class_ = "dne-itemtile dne-itemtile-medium")
         results += soup.find_all("div", class_ = "dne-itemtile dne-itemtile-large")
+        #print(results[0].prettify().split())
         for i in range(len(results)):
             results[i]=results[i].prettify()
             d[i]={}
@@ -23,11 +24,12 @@ def scrapeEbay():
             ib = True
             db = True
             d[i]["website"]="ebay"
-            d["href"]=None
-            d["image_url"]=None
-            d["title"]=None
-            d['regular_price']=None
-            d['sale_price']=None
+            d[i]["href"]=None
+            d[i]["img_url"]=None
+            d[i]["title"]=None
+            d[i]['regular_price']=None
+            d[i]['sale_price']=None
+            d[i]['category']=None
             for j in range(len(k)):
                 if k[j][0:5] == "href=" and ub:
                     ub = False
@@ -39,11 +41,11 @@ def scrapeEbay():
                     if k[j][-2:]=='">' or k[j][-2:]=="'>":
                         nb = False
                         d[i]["title"]=n[7:-3]
-                if k[j][0:15]=="data-config-src" and ib:
-                    d[i]["img_url"]=k[j][17:-1]
-                    ib = False
                 if k[j][0:3]=="src" and ib:
                     d[i]["img_url"]=(k[j][4:-3])
+                    ib = False
+                if k[j][0:15]=="data-config-src" and ib:
+                    d[i]["img_url"]=k[j][17:-1]
                     ib = False
                 if k[j]=='itemprop="price">':
                     d[i]["sale_price"]=(k[j+1])
@@ -58,3 +60,6 @@ def scrapeEbay():
     for x in range(len(d)):
         l.append(d[x])
     return l
+l=scrapeEbay()
+print(len(l))
+print(l[104])

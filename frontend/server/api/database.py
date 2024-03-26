@@ -191,7 +191,12 @@ def scrapeEbay():
             ib = True
             db = True
             d[i]["website"]="ebay"
-            d[i]["sale_price"] = None
+            d[i]["href"]=None
+            d[i]["img_url"]=None
+            d[i]["title"]=None
+            d[i]['regular_price']=None
+            d[i]['sale_price']=None
+            d[i]['category']=None
             for j in range(len(k)):
                 if k[j][0:5] == "href=" and ub:
                     ub = False
@@ -204,7 +209,7 @@ def scrapeEbay():
                         nb = False
                         d[i]["title"]=n[7:-3]
                 if k[j][0:15]=="data-config-src" and ib:
-                    d[i]["image_url"]=k[j][17:-1]
+                    d[i]["img_url"]=k[j][17:-1]
                     ib = False
                 if k[j][0:3]=="src" and ib:
                     d[i]["image_url"]=(k[j][4:-3])
@@ -235,13 +240,13 @@ def scrapeDell():
             d={}
             results[i]=results[i].prettify()
             k=results[i].split('"')
-            d["website"]="Dell"
-            d["href"]=None
-            d["image_url"]=None
-            d["title"]=None
-            d['regular_price']=None
-            d['sale_price']=None
-            d['category']='Technology'
+            d[i]["website"]="Dell"
+            d[i]["href"]=None
+            d[i]["img_url"]=None
+            d[i]["title"]=None
+            d[i]['regular_price']=None
+            d[i]['sale_price']=None
+            d[i]['category']='Technology'
             tb = True
             ib = True
             pb = True
@@ -254,7 +259,7 @@ def scrapeDell():
                     d['title'] = k[j+2]
                 if k[j] == 'image' and ib:
                     ib = False
-                    d['image_url'] = k[j+2]
+                    d['img_url'] = k[j+2]
                 if k[j] == 'dellPrice' and pb:
                     pb = False
                     d['sale_price'] = k[j+2]
@@ -265,6 +270,11 @@ def scrapeDell():
                     ub = False
                     d['href'] = "https:"+k[j+1]
             l.append(d)
+    for i in range(len(l)-1,0,-1):
+        if l[i]['title']==None:
+            del l[i]
+        else:
+            break
     return l
 
 load_dotenv()

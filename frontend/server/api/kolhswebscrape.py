@@ -23,15 +23,16 @@ def scrapeKohls():
             pb=True
             db=True
             d[i]["website"]="Kohls"
-            d["href"]=None
-            d["image_url"]=None
-            d["title"]=None
-            d['regular_price']=None
-            d['sale_price']=None
+            d[i]["href"]=None
+            d[i]["img_url"]=None
+            d[i]["title"]=None
+            d[i]['regular_price']=None
+            d[i]['sale_price']=None
+            d[i]['category']=None
             for j in range(len(k)):
                 if k[j][0:5] == "href=" and ub:
                     ub = False
-                    d[i]["href"]="kohls.com"+k[j][6:-1]
+                    d[i]["href"]="https://kohls.com"+k[j][6:-1]
                 if k[j][0:5] == "title" and nb2:
                     nb2 = False
                     nb = True
@@ -41,7 +42,7 @@ def scrapeKohls():
                         nb = False
                         d[i]["title"] = n[7:-18]
                 if k[j][0:7]=="srcset=" and ib:
-                    d[i]["image_url"] = k[j][8:]
+                    d[i]["img_url"] = k[j][8:]
                     ib=False
                 if k[j] == 'red_color">' and pb:
                     pb=False
@@ -59,4 +60,6 @@ def scrapeKohls():
     for x in range(len(d)):
         l.append(d[x])
     return(l)
-                
+l = scrapeKohls()
+print(l)
+          
