@@ -10,13 +10,14 @@ def scrapeDell():
         page = r.get(a, headers=headers)
         soup = bs(page.content, "html.parser")
         results = soup.find_all("article")
+        #print(results[26].prettify().split())
         for i in range(len(results)):
             d={}
             results[i]=results[i].prettify()
             k=results[i].split('"')
             d["website"]="Dell"
             d["href"]=None
-            d["image_url"]=None
+            d["img_url"]=None
             d["title"]=None
             d['regular_price']=None
             d['sale_price']=None
@@ -33,7 +34,7 @@ def scrapeDell():
                     d['title'] = k[j+2]
                 if k[j] == 'image' and ib:
                     ib = False
-                    d['image_url'] = k[j+2]
+                    d['img_url'] = k[j+2]
                 if k[j] == 'dellPrice' and pb:
                     pb = False
                     d['sale_price'] = k[j+2]
@@ -44,4 +45,14 @@ def scrapeDell():
                     ub = False
                     d['href'] = "https:"+k[j+1]
             l.append(d)
+    print(len(l))
+    for i in range(len(l)-1,0,-1):
+        if l[i]['title']==None:
+            del l[i]
+        else:
+            break
+    print(len(l))
     return l
+l=scrapeDell()
+#print(len(l))
+print(l)
