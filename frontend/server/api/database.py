@@ -86,11 +86,11 @@ def scrapeWalgreens():
                     title = title.rstrip('*')
 
                     image_tag = product_item.find('img')
-                    image_url = image_tag['src'] if image_tag else 'Image URL not found'
+                    image_url = image_tag['src'] if image_tag else None
                     href_tag = product_item.find('a', class_='card__topic')
-                    href = href_tag['href'] if href_tag else 'URL not found'
+                    href = href_tag['href'] if href_tag else None
                     sale_price_tag = product_item.find('strong')
-                    sale_price = sale_price_tag.text.strip() if sale_price_tag else 'Price not found'
+                    sale_price = sale_price_tag.text.strip() if sale_price_tag else None
 
                     # Store the extracted information in the product dictionary
                     product['title'] = title
