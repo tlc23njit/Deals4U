@@ -244,13 +244,13 @@ def scrapeDell():
             d={}
             results[i]=results[i].prettify()
             k=results[i].split('"')
-            d["website"]="Dell"
-            d["href"]=None
-            d["image_url"]=None
-            d["title"]=None
-            d['regular_price']=None
-            d['sale_price']=None
-            d['category']='Technology'
+            d[i]["website"]="Dell"
+            d[i]["href"]=None
+            d[i]["img_url"]=None
+            d[i]["title"]=None
+            d[i]['regular_price']=None
+            d[i]['sale_price']=None
+            d[i]['category']='Technology'
             tb = True
             ib = True
             pb = True
@@ -263,7 +263,7 @@ def scrapeDell():
                     d['title'] = k[j+2]
                 if k[j] == 'image' and ib:
                     ib = False
-                    d['image_url'] = k[j+2]
+                    d['img_url'] = k[j+2]
                 if k[j] == 'dellPrice' and pb:
                     pb = False
                     d['sale_price'] = k[j+2]
