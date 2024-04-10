@@ -86,7 +86,7 @@ def scrapeWalgreens():
                     title = title.rstrip('*')
 
                     image_tag = product_item.find('img')
-                    image_url = image_tag['src'] if image_tag else None
+                    image_url = image_tag['src'] 
                     href_tag = product_item.find('a', class_='card__topic')
                     href = href_tag['href'] if href_tag else None
                     sale_price_tag = product_item.find('strong')
@@ -182,6 +182,7 @@ def scrapeEbay():
         soup = BeautifulSoup(page.content, "html.parser")
         results = soup.find_all("div", class_ = "dne-itemtile dne-itemtile-medium")
         results += soup.find_all("div", class_ = "dne-itemtile dne-itemtile-large")
+        #print(results[0].prettify().split())
         for i in range(len(results)):
             results[i]=results[i].prettify()
             d[i]={}
@@ -192,7 +193,7 @@ def scrapeEbay():
             db = True
             d[i]["website"]="ebay"
             d[i]["href"]=None
-            d[i]["img_url"]=None
+            d[i]["image_url"]=None
             d[i]["title"]=None
             d[i]['regular_price']=None
             d[i]['sale_price']=None
@@ -208,11 +209,11 @@ def scrapeEbay():
                     if k[j][-2:]=='">' or k[j][-2:]=="'>":
                         nb = False
                         d[i]["title"]=n[7:-3]
-                if k[j][0:15]=="data-config-src" and ib:
-                    d[i]["img_url"]=k[j][17:-1]
-                    ib = False
                 if k[j][0:3]=="src" and ib:
                     d[i]["image_url"]=(k[j][4:-3])
+                    ib = False
+                if k[j][0:15]=="data-config-src" and ib:
+                    d[i]["image_url"]=k[j][17:-1]
                     ib = False
                 if k[j]=='itemprop="price">':
                     d[i]["sale_price"]=(k[j+1])
@@ -222,9 +223,12 @@ def scrapeEbay():
                 if k[j]=='class=evo-strikethrough-price">' and db:
                     d[i]["regular_price"]=k[j+1]
                     db=False
-
+    
+    
     l=[]
     for x in range(len(d)):
+        if d[x]["image_url"][0] == '"':
+            d[x]['image_url'] = d[x]['image_url'][1:]
         l.append(d[x])
     return l
 def scrapeDell():
@@ -318,18 +322,19 @@ def updateDB():
         
         walgreensList = scrapeWalgreens()
         for product in walgreensList:
-            count += 1
-            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], None, "Convinience"))
+            if product['image_url'].startswith("http"):
+                count += 1
+                cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], None, "Convenience"))
         
         amazonList = scrapeAmazon()
         for product in amazonList:
             count += 1
-            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], product['regular_price'], "Sorted"))
+            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], product['regular_price'], "Amazon/Ebay"))
 
         ebayList = scrapeEbay()
         for product in ebayList:
             count += 1
-            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], None, "Sorted"))
+            cursor.execute(insert_product_query, (count, product['title'], product['href'], product['image_url'], product['sale_price'], None, "Amazon/Ebay"))
 
         dellList = scrapeDell()
         for product in dellList:

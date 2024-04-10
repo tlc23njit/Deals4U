@@ -57,6 +57,19 @@ function App() {
     setSelectedCategory(category);
   };
 
+  const sortProductsByPrice = (direction) => {
+    const sortedProducts = [...products].sort((a, b) => {
+      const priceA = parseFloat((a.Discount_Price || '0').replace(/\$|,/g, ''));
+      const priceB = parseFloat((b.Discount_Price || '0').replace(/\$|,/g, ''));
+      if (direction === 'asc') {
+        return priceA - priceB;
+      } else {
+        return priceB - priceA;
+      }
+    });
+    setProducts(sortedProducts);
+  };
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
@@ -75,20 +88,69 @@ function App() {
     textAlign: 'center'
   };
 
+  const buttonStyle = {
+    backgroundColor: theme === 'light' ? 'white' : '#333',
+    color: theme === 'light' ? 'black' : 'white',
+    border: theme === 'light' ? '1px solid black' : '1px solid white', 
+    padding: '10px 20px',
+    margin: '1rem',
+    borderRadius: '5px',
+    cursor: 'pointer'
+  };
+
   return (
     <div className="App" style={{ backgroundColor: theme === 'light' ? '#fff' : '#111', color: theme === 'light' ? '#333' : '#fff' }}>
       <Banner/>
       <h1 style={{ textAlign: 'center' }}>🔥HOT DEALS🔥</h1>
       <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        <select onChange={(e) => filterProductsByCategory(e.target.value)}>
+        <select onChange={(e) => filterProductsByCategory(e.target.value)}
+          style={{
+            padding: '8px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            outline: 'none',
+            border: theme === 'light' ? '1px solid black' : '1px solid white',
+            backgroundColor: theme === 'light' ? 'white' : '#333',
+            color: theme === 'light' ? 'black' : 'white',
+          }}
+        >
           <option value="">All Categories</option>
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
           ))}
         </select>
       </div>
-      <button onClick={toggleTheme} style={{margin: '1rem'}}>Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme</button>
-      <button onClick={toggleSavedProducts} style={{margin: '1rem'}}>Saved Products ({savedProducts.length})</button>
+
+      <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+        <select onChange={(e) => sortProductsByPrice(e.target.value)}
+          style={{
+            padding: '8px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            outline: 'none',
+            border: theme === 'light' ? '1px solid black' : '1px solid white',
+            backgroundColor: theme === 'light' ? 'white' : '#333',
+            color: theme === 'light' ? 'black' : 'white',
+          }}
+        >
+          <option value="">Sort by Price</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
+
+      <button onClick={toggleTheme} 
+        style={buttonStyle}>
+        Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+      </button>
+
+      <button onClick={toggleSavedProducts} 
+        style={buttonStyle}>
+        Saved Products ({savedProducts.length})
+      </button>
+
       {showSavedProducts ? (
         <>
           <h2 style={{ textAlign: 'center' }}>Saved for Later</h2>
