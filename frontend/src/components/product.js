@@ -3,14 +3,14 @@ import { FaShoppingCart, FaTimes } from 'react-icons/fa'; // Import the shopping
 
 function Product({ product, style, saveForLater, removeFromSaved }) {
   return (
-    <li className="Product" id={product.Product_ID} style={style}>
-      <h3>{product.Product_Name}</h3>
-      <a href={product.WebsiteUrl}>
-        <img src={product.Image} alt={product.Product_Name} style={{ width: '100px', height: 'auto' }}/>
+    <li className="Product" id={product.product_id} style={style}>
+      <h3>{product.product_name}</h3>
+      <a href={product.websiteurl}>
+        <img src={product.image} alt={product.product_name} style={{ width: '100px', height: 'auto' }}/>
       </a>
-      <h4 style={{ color: 'red' }}>ON SALE FOR : {product.Discount_Price}</h4>
-      {product.Full_Price && product.Full_Price !== '' && (
-        <h4>Originally : {product.Full_Price}</h4>
+      <h4 style={{ color: 'red' }}>ON SALE FOR : {product.discount_price}</h4>
+      {product.full_price && product.full_price !== '' && (
+        <h4>Originally : {product.full_price}</h4>
       )}
       {saveForLater && (
         <button 
