@@ -18,8 +18,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data.results) {
-          setProducts(data.results);
-          const uniqueCategories = [...new Set(data.results.map(product => product.Category))];
+          setProducts(data.results.rows);
+          console.log(setProducts)
+          const uniqueCategories = [...new Set(data.results.rows.map(product => product.category))];
           setCategories(uniqueCategories);
         } else {
           console.error('Error fetching products:', data);
@@ -36,7 +37,7 @@ function App() {
 
   const saveForLater = (product) => {
     setSavedProducts((prevSavedProducts) => {
-      if (!prevSavedProducts.find(p => p.Product_ID === product.Product_ID)) {
+      if (!prevSavedProducts.find(p => p.product_id === product.product_id)) {
         return [...prevSavedProducts, product];
       }
       return prevSavedProducts;
@@ -45,7 +46,7 @@ function App() {
 
   const removeFromSaved = (productToRemove) => {
     setSavedProducts((prevSavedProducts) => {
-      return prevSavedProducts.filter(product => product.Product_ID !== productToRemove.Product_ID);
+      return prevSavedProducts.filter(product => product.product_id !== productToRemove.product_id);
     });
   };
 
@@ -59,8 +60,8 @@ function App() {
 
   const sortProductsByPrice = (direction) => {
     const sortedProducts = [...products].sort((a, b) => {
-      const priceA = parseFloat((a.Discount_Price || '0').replace(/\$|,/g, ''));
-      const priceB = parseFloat((b.Discount_Price || '0').replace(/\$|,/g, ''));
+      const priceA = parseFloat((a.discount_price || '0').replace(/\$|,/g, ''));
+      const priceB = parseFloat((b.discount_price || '0').replace(/\$|,/g, ''));
       if (direction === 'asc') {
         return priceA - priceB;
       } else {
@@ -162,7 +163,7 @@ function App() {
             padding: 0
           }}>
             {savedProducts.map((savedProduct) => (
-              <Product key={savedProduct.Product_ID} product={savedProduct} style={productStyle} removeFromSaved={removeFromSaved} />
+              <Product key={savedProduct.product_id} product={savedProduct} style={productStyle} removeFromSaved={removeFromSaved} />
             ))}
           </ul>
         </>
@@ -175,9 +176,9 @@ function App() {
           padding: 0
         }}>
           {products
-            .filter(product => !selectedCategory || product.Category === selectedCategory)
+            .filter(product => !selectedCategory || product.category === selectedCategory)
             .map((product) => (
-              <Product key={product.Product_ID} product={product} style={productStyle} saveForLater={saveForLater} />
+              <Product key={product.product_id} product={product} style={productStyle} saveForLater={saveForLater} /> // Update 'Product_ID' to 'product_id'
             ))}
         </ul>
       )}
