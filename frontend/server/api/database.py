@@ -105,7 +105,8 @@ def scrapeAmazon():
     amazonProducts = []
     URL = "https://www.amazon.com/s?k=deals&crid=3TY4WIKT6FJYD&sprefix=deals%2Caps%2C78&ref=nb_sb_noss_1"
     baseUrl = "https://www.amazon.com"
-    page = requests.get(URL, headers= custom_headers)
+    page = requests.get(URL, headers=custom_headers)
+    print(page)
     soup = BeautifulSoup(page.text, "html.parser")
     item_element_list = soup.find_all("div", class_="sg-col-inner")
     for item_element in item_element_list:
@@ -186,6 +187,7 @@ def scrapeEbay():
                 item["regular_price"] = regular_price_tag.text.strip()
             else:
                 item["regular_price"] = None
+            print(d)
             d.append(item)
     return d
 def scrapeDell():
@@ -231,6 +233,11 @@ def scrapeDell():
                     ub = False
                     d['href'] = "https:"+k[j+1]
             l.append(d)
+    for i in range(len(l)-1,0,-1):
+        if l[i]['title']==None:
+            del l[i]
+        else:
+            break
     return l
 
 load_dotenv()
@@ -239,16 +246,12 @@ host = os.environ.get("DB_HOST")
 user = os.environ.get("DB_USER")
 password = os.environ.get("DB_PASSWORD")
 database = os.environ.get("DB_DATABASE")
+ssl = os.environ.get("DB_SSL")
 
 
 def updateDB():
     try : 
-        conn = psycopg2.connect(
-            host=host,
-            user=user,
-            password=password,
-            dbname=database
-            )
+        conn = psycopg2.connect(ssl, sslmode='require')
         cursor = conn.cursor()
 
         # Remove the existing product

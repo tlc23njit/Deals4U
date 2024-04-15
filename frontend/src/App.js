@@ -19,7 +19,6 @@ function App() {
       .then((data) => {
         if (data.results) {
           setProducts(data.results.rows);
-          console.log(setProducts)
           const uniqueCategories = [...new Set(data.results.rows.map(product => product.category))];
           setCategories(uniqueCategories);
         } else {
