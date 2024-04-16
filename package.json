@@ -9,9 +9,10 @@
     "react-scripts": "5.0.1"
   },  
   "scripts": {
-    "start": "node ./backend/server.js",
-    "client": "react-scripts start",
-    "dev": "concurrently \"npm start\" \"npm client\""
+    "frontend": "cd frontend && npm start",
+    "api": "cd api && nodemon app.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
     
   "engines": {
