@@ -10,14 +10,9 @@
   },  
   "scripts": {
     "frontend": "cd frontend && npm start",
-    "api": "cd api && nodemon app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
+    "api": "cd backend && node server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
-  },
-    
-  "engines": {
-    "node": "20.x",
-    "npm": "10.5.x"
   }
     
 }
