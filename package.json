@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "cd frontend && npm start && cd ../backend && node server.js",
-    "dev": "concurrently \"npm run start\" \"npm run client\"" 
+    "dev": "concurrently \"npm start\" \"npm client\"" 
 
   }
   
