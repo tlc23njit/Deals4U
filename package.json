@@ -9,6 +9,6 @@
     "react-scripts": "latest"
   },
   "scripts": {
-    "heroku-postbuild": "cd frontend && npm run start"
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   }
 }
