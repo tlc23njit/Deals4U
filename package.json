@@ -8,7 +8,7 @@
     "react-icons": "^5.0.1"
   },
   "scripts": {
-    "start": "cd frontend && npm start"
+    "start": "cd frontend && npm start && cd ../backend && node server.js"
     
   }
   
