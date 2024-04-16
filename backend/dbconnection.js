@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // Create a connection to the database
 const dbConnection = new Client({
-  connectionString : process.env.DB_SSL,
+  connectionString : process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }

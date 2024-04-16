@@ -246,7 +246,7 @@ host = os.environ.get("DB_HOST")
 user = os.environ.get("DB_USER")
 password = os.environ.get("DB_PASSWORD")
 database = os.environ.get("DB_DATABASE")
-ssl = os.environ.get("DB_SSL")
+ssl = os.environ.get("DATABASE_URL")
 
 
 def updateDB():
